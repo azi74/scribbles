@@ -9,11 +9,10 @@ const xss = require('xss-clean');
 const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const cors = require('cors');
-const errorHandler = require('./middleware/error');
 const connectDB = require('./config/db');
 
 // Load env vars
-dotenv.config({ path: './config/config.env' });
+dotenv.config({ path: '.env' });
 
 // Connect to database
 connectDB();
@@ -64,9 +63,6 @@ app.use('/api/v1/auth', auth);
 app.use('/api/v1/posts', posts);
 app.use('/api/v1/comments', comments);
 app.use('/api/v1/users', users);
-
-// Error handler middleware
-app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

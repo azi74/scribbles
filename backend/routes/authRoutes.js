@@ -9,7 +9,7 @@ const {
   forgotPassword,
   resetPassword,
 } = require('../controllers/authController');
-const { protect } = require('../middleware/auth');
+const { protect,authorizeRoles } = require('../middleware/auth');
 
 const router = express.Router();
 
