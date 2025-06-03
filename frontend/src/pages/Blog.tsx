@@ -18,9 +18,9 @@ const Blog: React.FC = () => {
   return (
     <Layout>
       <section className="container-blog py-8 md:py-16">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">Blog</h1>
-        <p className="text-xl text-gray-600 mb-12 max-w-2xl">
-          Explore our latest articles and insights on design, development, and content strategy.
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 heading-yellow">Reviews</h1>
+        <p className="text-xl text-muted-foreground mb-12 max-w-2xl">
+          Explore our comprehensive reviews and ratings on products, services, and experiences.
         </p>
         
         {/* Category Filter */}
@@ -28,10 +28,10 @@ const Blog: React.FC = () => {
           {categories.map(category => (
             <button
               key={category}
-              className={`px-4 py-2 rounded-full text-sm font-medium ${
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 selectedCategory === category
-                  ? 'bg-blog-black text-blog-white'
-                  : 'bg-blog-lightgray text-blog-black hover:bg-blog-lightgray2 transition-colors'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground'
               }`}
               onClick={() => setSelectedCategory(category)}
             >
@@ -50,9 +50,9 @@ const Blog: React.FC = () => {
         {/* Empty State */}
         {filteredPosts.length === 0 && (
           <div className="text-center py-12">
-            <h3 className="text-xl font-medium mb-2">No posts found</h3>
-            <p className="text-gray-600">
-              No posts in the {selectedCategory} category yet. Check back soon!
+            <h3 className="text-xl font-medium mb-2 heading-yellow">No reviews found</h3>
+            <p className="text-muted-foreground">
+              No reviews in the {selectedCategory} category yet. Check back soon!
             </p>
           </div>
         )}

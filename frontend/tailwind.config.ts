@@ -63,19 +63,38 @@ export default {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))'
         },
+        yellow: {
+          50: '#fefce8',
+          100: '#fef9c3',
+          200: '#fef08a',
+          300: '#fde047',
+          400: '#facc15',
+          500: '#eab308',
+          600: '#ca8a04',
+          700: '#a16207',
+          800: '#854d0e',
+          900: '#713f12',
+          950: '#422006',
+        },
+        heading: 'hsl(var(--heading-color))',
         blog: {
           black: '#000000',
           white: '#FFFFFF',
           lightgray: '#F1F1F1',
           lightgray2: '#E5E5E5',
           mediumgray: '#C8C8C9',
+          yellow: {
+            light: '#FEF3C7',
+            DEFAULT: '#F59E0B',
+            dark: '#D97706'
+          },
           dark: {
-            background: '#1A1F2C',
-            card: '#221F26',
-            text: '#E5E5E5',
-            muted: '#94A3B8',
-            accent: '#2A2B3C',
-            hover: '#2F3042'
+            background: '#000000', /* Pure black */
+            card: '#0A0A0A',
+            text: '#FFFFFF', /* Pure white */
+            muted: '#A3A3A3',
+            accent: '#F59E0B', /* Yellow accent */
+            hover: '#1A1A1A'
           }
         }
       },

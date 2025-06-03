@@ -22,11 +22,11 @@ const Home: React.FC = () => {
   return (
     <Layout>
       <section className="container-blog py-8 md:py-12">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          Thoughts, stories and ideas
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 heading-yellow">
+          Honest Reviews, Trusted Opinions
         </h1>
-        <p className="text-xl text-gray-600 mb-10 max-w-2xl">
-          Welcome to Shadow Scribbles, a blog exploring design, development, and the creative process.
+        <p className="text-xl text-muted-foreground mb-10 max-w-2xl">
+          Welcome to Reviews, your go-to platform for comprehensive reviews on products, services, and experiences from real users.
         </p>
         
         {/* Featured Posts - Two side by side */}
@@ -41,8 +41,8 @@ const Home: React.FC = () => {
         {/* Recent Posts - Responsive grid with 4 posts per row on large screens */}
         <div className="mb-16">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold">Recent Articles</h2>
-            <Link to="/blog" className="text-blog-black font-medium hover:underline">
+            <h2 className="text-2xl font-bold heading-yellow">Latest Reviews</h2>
+            <Link to="/blog" className="text-primary font-medium hover:underline">
               View All
             </Link>
           </div>
@@ -58,10 +58,10 @@ const Home: React.FC = () => {
         {categories.slice(0, 2).map(category => (
           <div key={category} className="mb-16">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-bold">{category}</h2>
+              <h2 className="text-2xl font-bold heading-yellow">{category} Reviews</h2>
               <Link 
                 to={`/blog?category=${category}`} 
-                className="text-blog-black font-medium hover:underline"
+                className="text-primary font-medium hover:underline"
               >
                 More in {category}
               </Link>
@@ -80,20 +80,20 @@ const Home: React.FC = () => {
         ))}
         
         {/* CTA Section */}
-        <div className="bg-blog-lightgray rounded-lg p-8 md:p-12 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">
-            Never miss a new post
+        <div className="bg-accent rounded-lg p-8 md:p-12 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 heading-yellow">
+            Never miss a new review
           </h2>
-          <p className="text-gray-600 mb-6 max-w-lg mx-auto">
-            Subscribe to our newsletter to get notified about new content, features, and updates.
+          <p className="text-muted-foreground mb-6 max-w-lg mx-auto">
+            Subscribe to our newsletter to get notified about new reviews, ratings, and trusted recommendations.
           </p>
           <div className="flex flex-col sm:flex-row max-w-md mx-auto">
             <input 
               type="email" 
               placeholder="Enter your email" 
-              className="px-4 py-3 rounded-lg mb-3 sm:mb-0 sm:mr-2 flex-grow border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blog-black"
+              className="px-4 py-3 rounded-lg mb-3 sm:mb-0 sm:mr-2 flex-grow border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             />
-            <button className="bg-blog-black text-blog-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors">
+            <button className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors">
               Subscribe
             </button>
           </div>
