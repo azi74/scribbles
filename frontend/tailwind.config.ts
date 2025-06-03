@@ -98,10 +98,17 @@ export default {
           }
         }
       },
+      fontFamily: {
+        sans: ['Product Sans', 'Inter', 'system-ui', 'sans-serif'],
+        serif: ['Playfair Display', 'serif'],
+      },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)'
+        lg: '1rem',
+        md: '0.75rem',
+        sm: '0.5rem',
+        xl: '1.5rem',
+        '2xl': '2rem',
+        '3xl': '3rem',
       },
       keyframes: {
         'accordion-down': {
