@@ -1,13 +1,13 @@
-const Post = require('../models/Post');
-const User = require('../models/User');
-const ErrorResponse = require('../utils/errorResponse');
-const asyncHandler = require('../middleware/async');
+import Post from '../models/Post.js';
+import User from '../models/User.js';
+import ErrorResponse from '../utils/errorResponse.js';
+import asyncHandler from '../middleware/async.js';
 
 // @desc    Get all posts
 // @route   GET /api/v1/posts
 // @route   GET /api/v1/users/:userId/posts
 // @access  Public
-exports.getPosts = asyncHandler(async (req, res, next) => {
+export const getPosts = asyncHandler(async (req, res, next) => {
   if (req.params.userId) {
     const posts = await Post.find({ author: req.params.userId })
       .populate('author', 'name avatar')
@@ -26,7 +26,7 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
 // @desc    Get single post
 // @route   GET /api/v1/posts/:id
 // @access  Public
-exports.getPost = asyncHandler(async (req, res, next) => {
+export const getPost = asyncHandler(async (req, res, next) => {
   const post = await Post.findById(req.params.id).populate(
     'author',
     'name avatar bio'
@@ -47,8 +47,7 @@ exports.getPost = asyncHandler(async (req, res, next) => {
 // @desc    Create new post
 // @route   POST /api/v1/posts
 // @access  Private
-exports.createPost = asyncHandler(async (req, res, next) => {
-  // Add user to req.body
+export const createPost = asyncHandler(async (req, res, next) => {
   req.body.author = req.user.id;
 
   const post = await Post.create(req.body);
@@ -62,7 +61,7 @@ exports.createPost = asyncHandler(async (req, res, next) => {
 // @desc    Update post
 // @route   PUT /api/v1/posts/:id
 // @access  Private
-exports.updatePost = asyncHandler(async (req, res, next) => {
+export const updatePost = asyncHandler(async (req, res, next) => {
   let post = await Post.findById(req.params.id);
 
   if (!post) {
@@ -71,7 +70,6 @@ exports.updatePost = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Make sure user is post owner or admin
   if (post.author.toString() !== req.user.id && req.user.role !== 'admin') {
     return next(
       new ErrorResponse(
@@ -95,7 +93,7 @@ exports.updatePost = asyncHandler(async (req, res, next) => {
 // @desc    Delete post
 // @route   DELETE /api/v1/posts/:id
 // @access  Private
-exports.deletePost = asyncHandler(async (req, res, next) => {
+export const deletePost = asyncHandler(async (req, res, next) => {
   const post = await Post.findById(req.params.id);
 
   if (!post) {
@@ -104,7 +102,6 @@ exports.deletePost = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Make sure user is post owner or admin
   if (post.author.toString() !== req.user.id && req.user.role !== 'admin') {
     return next(
       new ErrorResponse(
@@ -125,7 +122,7 @@ exports.deletePost = asyncHandler(async (req, res, next) => {
 // @desc    Like a post
 // @route   PUT /api/v1/posts/:id/like
 // @access  Private
-exports.likePost = asyncHandler(async (req, res, next) => {
+export const likePost = asyncHandler(async (req, res, next) => {
   const post = await Post.findById(req.params.id);
 
   if (!post) {
@@ -134,12 +131,10 @@ exports.likePost = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Check if the user has already liked the post
   if (post.likes.includes(req.user.id)) {
     return next(new ErrorResponse('You have already liked this post', 400));
   }
 
-  // Check if the user has disliked the post and remove it
   if (post.dislikes.includes(req.user.id)) {
     post.dislikes = post.dislikes.filter(
       (id) => id.toString() !== req.user.id.toString()
@@ -158,7 +153,7 @@ exports.likePost = asyncHandler(async (req, res, next) => {
 // @desc    Unlike a post
 // @route   PUT /api/v1/posts/:id/unlike
 // @access  Private
-exports.unlikePost = asyncHandler(async (req, res, next) => {
+export const unlikePost = asyncHandler(async (req, res, next) => {
   const post = await Post.findById(req.params.id);
 
   if (!post) {
@@ -167,7 +162,6 @@ exports.unlikePost = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Check if the user has liked the post
   if (!post.likes.includes(req.user.id)) {
     return next(new ErrorResponse('You have not liked this post', 400));
   }
@@ -186,7 +180,7 @@ exports.unlikePost = asyncHandler(async (req, res, next) => {
 // @desc    Dislike a post
 // @route   PUT /api/v1/posts/:id/dislike
 // @access  Private
-exports.dislikePost = asyncHandler(async (req, res, next) => {
+export const dislikePost = asyncHandler(async (req, res, next) => {
   const post = await Post.findById(req.params.id);
 
   if (!post) {
@@ -195,12 +189,10 @@ exports.dislikePost = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Check if the user has already disliked the post
   if (post.dislikes.includes(req.user.id)) {
     return next(new ErrorResponse('You have already disliked this post', 400));
   }
 
-  // Check if the user has liked the post and remove it
   if (post.likes.includes(req.user.id)) {
     post.likes = post.likes.filter(
       (id) => id.toString() !== req.user.id.toString()
@@ -219,7 +211,7 @@ exports.dislikePost = asyncHandler(async (req, res, next) => {
 // @desc    Undislike a post
 // @route   PUT /api/v1/posts/:id/undislike
 // @access  Private
-exports.undislikePost = asyncHandler(async (req, res, next) => {
+export const undislikePost = asyncHandler(async (req, res, next) => {
   const post = await Post.findById(req.params.id);
 
   if (!post) {
@@ -228,7 +220,6 @@ exports.undislikePost = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Check if the user has disliked the post
   if (!post.dislikes.includes(req.user.id)) {
     return next(new ErrorResponse('You have not disliked this post', 400));
   }
@@ -247,7 +238,7 @@ exports.undislikePost = asyncHandler(async (req, res, next) => {
 // @desc    Share a post
 // @route   PUT /api/v1/posts/:id/share
 // @access  Private
-exports.sharePost = asyncHandler(async (req, res, next) => {
+export const sharePost = asyncHandler(async (req, res, next) => {
   const post = await Post.findById(req.params.id);
 
   if (!post) {

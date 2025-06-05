@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const ErrorResponse = require('../utils/errorResponse');
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
+import ErrorResponse from '../utils/errorResponse.js';
 
-exports.protect = async (req, res, next) => {
+export const protect = async (req, res, next) => {
   const { token } = req.cookies;
 
   if (!token) {
@@ -18,7 +18,7 @@ exports.protect = async (req, res, next) => {
   }
 };
 
-exports.authorizeRoles = (...roles) => {
+export const authorizeRoles = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return next(
@@ -32,7 +32,8 @@ exports.authorizeRoles = (...roles) => {
   };
 };
 
-exports.authorize = (...roles) => {
+// You can remove the duplicate authorize function or keep if needed under different name
+export const authorize = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return next(

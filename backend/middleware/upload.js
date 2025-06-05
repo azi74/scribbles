@@ -1,8 +1,8 @@
-const multer = require('multer');
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
+import cloudinaryPkg from 'cloudinary';
+const { v2: cloudinary } = cloudinaryPkg;
+import multer from 'multer';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
-// Configure Cloudinary storage
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
@@ -13,21 +13,19 @@ const storage = new CloudinaryStorage({
 });
 
 const upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 50 * 1024 * 1024, // 50MB limit
-  },
+  storage,
+  limits: { fileSize: 50 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
-    // Check file types
-    if (
-      file.mimetype === 'image/jpeg' ||
-      file.mimetype === 'image/png' ||
-      file.mimetype === 'image/gif' ||
-      file.mimetype === 'video/mp4' ||
-      file.mimetype === 'video/quicktime' ||
-      file.mimetype === 'audio/mpeg' ||
-      file.mimetype === 'audio/wav'
-    ) {
+    const allowedMimes = [
+      'image/jpeg',
+      'image/png',
+      'image/gif',
+      'video/mp4',
+      'video/quicktime',
+      'audio/mpeg',
+      'audio/wav',
+    ];
+    if (allowedMimes.includes(file.mimetype)) {
       cb(null, true);
     } else {
       cb(new Error('Invalid file type'), false);
@@ -35,4 +33,4 @@ const upload = multer({
   },
 });
 
-module.exports = upload;
+export default upload;

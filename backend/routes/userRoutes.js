@@ -1,15 +1,15 @@
-const express = require('express');
-const {
+import express from 'express';
+import {
   getUsers,
   getUser,
   updateUser,
   deleteUser,
   uploadAvatar,
-} = require('../controllers/userController');
-const { protect, authorize } = require('../middleware/auth');
-const upload = require('../middleware/upload');
-const advancedResults = require('../middleware/advancedResults');
-const User = require('../models/User');
+} from '../controllers/userController.js';
+import { protect, authorize } from '../middleware/auth.js';
+import upload from '../middleware/upload.js';
+import advancedResults from '../middleware/advancedResults.js';
+import User from '../models/User.js';
 
 const router = express.Router();
 
@@ -28,4 +28,4 @@ router
 
 router.route('/avatar/upload').put(upload.single('avatar'), uploadAvatar);
 
-module.exports = router;
+export default router;

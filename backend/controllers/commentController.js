@@ -1,12 +1,12 @@
-const Comment = require('../models/Comment');
-const Post = require('../models/Post');
-const ErrorResponse = require('../utils/errorResponse');
-const asyncHandler = require('../middleware/async');
+import Comment from '../models/Comment.js';
+import Post from '../models/Post.js';
+import ErrorResponse from '../utils/errorResponse.js';
+import asyncHandler from '../middleware/async.js';
 
 // @desc    Get comments for a post
 // @route   GET /api/v1/posts/:postId/comments
 // @access  Public
-exports.getComments = asyncHandler(async (req, res, next) => {
+export const getComments = asyncHandler(async (req, res, next) => {
   const comments = await Comment.find({ post: req.params.postId })
     .populate('user', 'name avatar')
     .sort({ createdAt: -1 });
@@ -21,7 +21,7 @@ exports.getComments = asyncHandler(async (req, res, next) => {
 // @desc    Add comment to a post
 // @route   POST /api/v1/posts/:postId/comments
 // @access  Private
-exports.addComment = asyncHandler(async (req, res, next) => {
+export const addComment = asyncHandler(async (req, res, next) => {
   req.body.post = req.params.postId;
   req.body.user = req.user.id;
 
@@ -44,7 +44,7 @@ exports.addComment = asyncHandler(async (req, res, next) => {
 // @desc    Update comment
 // @route   PUT /api/v1/comments/:id
 // @access  Private
-exports.updateComment = asyncHandler(async (req, res, next) => {
+export const updateComment = asyncHandler(async (req, res, next) => {
   let comment = await Comment.findById(req.params.id);
 
   if (!comment) {
@@ -53,7 +53,6 @@ exports.updateComment = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Make sure user is comment owner or admin
   if (comment.user.toString() !== req.user.id && req.user.role !== 'admin') {
     return next(
       new ErrorResponse(
@@ -77,7 +76,7 @@ exports.updateComment = asyncHandler(async (req, res, next) => {
 // @desc    Delete comment
 // @route   DELETE /api/v1/comments/:id
 // @access  Private
-exports.deleteComment = asyncHandler(async (req, res, next) => {
+export const deleteComment = asyncHandler(async (req, res, next) => {
   const comment = await Comment.findById(req.params.id);
 
   if (!comment) {
@@ -86,7 +85,6 @@ exports.deleteComment = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Make sure user is comment owner or admin
   if (comment.user.toString() !== req.user.id && req.user.role !== 'admin') {
     return next(
       new ErrorResponse(
@@ -107,7 +105,7 @@ exports.deleteComment = asyncHandler(async (req, res, next) => {
 // @desc    Like a comment
 // @route   PUT /api/v1/comments/:id/like
 // @access  Private
-exports.likeComment = asyncHandler(async (req, res, next) => {
+export const likeComment = asyncHandler(async (req, res, next) => {
   const comment = await Comment.findById(req.params.id);
 
   if (!comment) {
@@ -116,7 +114,6 @@ exports.likeComment = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Check if the user has already liked the comment
   if (comment.likes.includes(req.user.id)) {
     return next(new ErrorResponse('You have already liked this comment', 400));
   }
@@ -133,7 +130,7 @@ exports.likeComment = asyncHandler(async (req, res, next) => {
 // @desc    Unlike a comment
 // @route   PUT /api/v1/comments/:id/unlike
 // @access  Private
-exports.unlikeComment = asyncHandler(async (req, res, next) => {
+export const unlikeComment = asyncHandler(async (req, res, next) => {
   const comment = await Comment.findById(req.params.id);
 
   if (!comment) {
@@ -142,7 +139,6 @@ exports.unlikeComment = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Check if the user has liked the comment
   if (!comment.likes.includes(req.user.id)) {
     return next(new ErrorResponse('You have not liked this comment', 400));
   }

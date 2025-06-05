@@ -1,15 +1,15 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const morgan = require('morgan');
-const colors = require('colors');
-const cookieParser = require('cookie-parser');
-const mongoSanitize = require('express-mongo-sanitize');
-const helmet = require('helmet');
-const xss = require('xss-clean');
-const rateLimit = require('express-rate-limit');
-const hpp = require('hpp');
-const cors = require('cors');
-const connectDB = require('./config/db');
+import express from 'express';
+import dotenv from 'dotenv';
+import morgan from 'morgan';
+import colors from 'colors';
+import cookieParser from 'cookie-parser';
+import mongoSanitize from 'express-mongo-sanitize';
+import helmet from 'helmet';
+import xss from 'xss-clean';
+import rateLimit from 'express-rate-limit';
+import hpp from 'hpp';
+import cors from 'cors';
+import connectDB from './config/db.js';
 
 // Load env vars
 dotenv.config({ path: '.env' });
@@ -18,10 +18,10 @@ dotenv.config({ path: '.env' });
 connectDB();
 
 // Route files
-const auth = require('./routes/authRoutes');
-const posts = require('./routes/postRoutes');
-const comments = require('./routes/commentRoutes');
-const users = require('./routes/userRoutes');
+import auth from './routes/authRoutes.js';
+import posts from './routes/postRoutes.js';
+import comments from './routes/commentRoutes.js';
+import users from './routes/userRoutes.js';
 
 const app = express();
 

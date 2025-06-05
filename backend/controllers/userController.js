@@ -1,19 +1,14 @@
-const User = require('../models/User');
-const Post = require('../models/Post');
-const ErrorResponse = require('../utils/errorResponse');
-const asyncHandler = require('../middleware/async');
+import User from '../models/User.js';
+import Post from '../models/Post.js';
+import ErrorResponse from '../utils/errorResponse.js';
+import asyncHandler from '../middleware/async.js';
+import cloudinary from 'cloudinary';
 
-// @desc    Get all users
-// @route   GET /api/v1/users
-// @access  Private/Admin
-exports.getUsers = asyncHandler(async (req, res, next) => {
+export const getUsers = asyncHandler(async (req, res, next) => {
   res.status(200).json(res.advancedResults);
 });
 
-// @desc    Get single user
-// @route   GET /api/v1/users/:id
-// @access  Public
-exports.getUser = asyncHandler(async (req, res, next) => {
+export const getUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.params.id).select('-password');
 
   if (!user) {
@@ -28,10 +23,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Update user
-// @route   PUT /api/v1/users/:id
-// @access  Private/Admin
-exports.updateUser = asyncHandler(async (req, res, next) => {
+export const updateUser = asyncHandler(async (req, res, next) => {
   const user = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -49,10 +41,7 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Delete user
-// @route   DELETE /api/v1/users/:id
-// @access  Private/Admin
-exports.deleteUser = asyncHandler(async (req, res, next) => {
+export const deleteUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
   if (!user) {
@@ -72,10 +61,7 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Upload user avatar
-// @route   PUT /api/v1/users/avatar
-// @access  Private
-exports.uploadAvatar = asyncHandler(async (req, res, next) => {
+export const uploadAvatar = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id);
 
   if (!user) {
@@ -87,7 +73,7 @@ exports.uploadAvatar = asyncHandler(async (req, res, next) => {
   }
 
   // Delete previous avatar if exists
-  if (user.avatar.public_id) {
+  if (user.avatar?.public_id) {
     await cloudinary.uploader.destroy(user.avatar.public_id);
   }
 
